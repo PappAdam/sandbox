@@ -76,7 +76,7 @@ float perlin2d(float x, float y, float freq, int depth)
     return fin/div;
 }
 
-void generateMap() {
+void generateMap() { //FIXME make it generate more than 4 layers procedually
     SEED = rand();
     for (int y = 0; y < mapSizeY; y++) {
         for (int x = 0; x < mapSizeX; x++) {

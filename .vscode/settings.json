@@ -1,5 +1,14 @@
 {
     "files.associations": {
         "sdl.h": "c"
-    }
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/media/adampapp/2TBHDD/C/sandbox",
+            "binaryPath": "/media/adampapp/2TBHDD/C/sandbox/sandbox",
+            "binaryArgs": []
+        }
+    ],
+    "todo-tree.tree.showBadges": true,
+    "todo-tree.tree.scanMode": "open files"
 }

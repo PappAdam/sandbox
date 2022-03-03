@@ -22,7 +22,7 @@ SDL_Renderer *renderer = NULL;
 camera mainCamera = {.speed = 2, .xoffset = 0, .yoffset = 0, .isMoveable=true};
 mouse mouse_;
 
-character character_ = {.move = false, .x = 62, .y = 40, .z = 3, .speed = .01f};
+character character_ = {.move = false, .mapCX = 50, .mapCY = 50, .mapCZ = 20, .x = 50, .y = 50, .z = 20, .speed = .01f};
 
 const unsigned int timePerFrame = 1000 / 1000;
 const float deltaTimeRatio = 1000 / 500;
@@ -47,7 +47,7 @@ void init() {
 //========================================================================== CLOSE ===========================================================================//
 
 
-void Close_() {
+void Close_() { //TODO destor images created in renderer.c
     SDL_DestroyWindow( window );
 
     SDL_DestroyRenderer( renderer);
@@ -60,7 +60,7 @@ void Close_() {
 //=========================================================================== EVENT HANDLER ==================================================================//
 
 
-void eventHandler(SDL_Event event) {
+void eventHandler(SDL_Event event) { //TODO add controller support
     while (SDL_PollEvent(&event)) {
         switch(event.type){
             case SDL_QUIT:
@@ -86,6 +86,11 @@ void eventHandler(SDL_Event event) {
                     case SDLK_d:
                         character_.move = true;
                         character_.direction = right;
+                        break;
+                    case SDLK_SPACE:
+                        if (character_.collisioDir.down) {
+                            character_.isJump = true;
+                        }
                         break;
                     
                     default:
@@ -152,6 +157,7 @@ void runGame() {
         eventHandler(event);
         moveCam(&mainCamera, mouse_, win_width, win_height, deltaTime);
         moveCharacter(&character_, deltaTime);
+        isCollide(&character_);
 
 
         // Game

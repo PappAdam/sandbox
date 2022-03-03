@@ -2,18 +2,38 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 
-typedef struct _character
+
+typedef struct collisionDir
 {
-    float x, y, z;
-    bool move;
-    float speed;
-    enum dir {
+    bool left;
+    bool right;
+    bool forward;
+    bool backwards;
+    bool top;
+    bool down;
+} collisionDir_;
+
+typedef enum dir {
         left,
         right,
         forward,
         backwards
-    } direction;
+} dir;
+
+
+typedef struct _character
+{
+    float zSpeed;
+    float x, y, z;
+    int mapCX, mapCY, mapCZ;
+    bool isJump;
+    bool move;
+    float speed;
+    dir direction;
+    collisionDir_ collisioDir;
 
 } character;
 
 void moveCharacter(character* character, float deltaTime);
+
+void isCollide(character* character);

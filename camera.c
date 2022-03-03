@@ -7,7 +7,7 @@ typedef struct _camera {
     bool isMoveable;
 } camera;
 
-void moveCam(camera *cam, mouse mouse_, int maxX, int maxY, float deltaTime) {
+void moveCam(camera *cam, mouse mouse_, int maxX, int maxY, float deltaTime) { //TODO add camera lock and zoom
     if (cam->isMoveable) {
         if (mouse_.x >= maxX-20) {
             cam->xoffset -= cam->speed*deltaTime;
