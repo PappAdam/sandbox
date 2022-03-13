@@ -1,13 +1,9 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include "mapgen.h"
 #include "camera.h"
 
-#define mapSizeX 100
-#define mapSizeY 100
-
-
-int map[mapSizeY][mapSizeX][64];
 
 static int SEED = 0;
 
@@ -78,9 +74,9 @@ float perlin2d(float x, float y, float freq, int depth)
 
 void generateMap() { //FIXME make it generate more than 4 layers procedually
     SEED = rand();
-    for (int y = 0; y < mapSizeY; y++) {
-        for (int x = 0; x < mapSizeX; x++) {
-            double z = perlin2d(x, y, .1, 2) / (abs(mapSizeX/2 - x) + abs(mapSizeY/2 - y)) * (mapSizeY+mapSizeX)/40;
+    for (int y = 0; y < mapSize; y++) {
+        for (int x = 0; x < mapSize; x++) {
+            double z = perlin2d(x, y, .1, 2) / (abs(mapSize/2 - x) + abs(mapSize/2 - y)) * (mapSize+mapSize)/40;
             if (z > .3) {
                 map[y][x][3] = 1;
             }

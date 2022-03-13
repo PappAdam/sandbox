@@ -8,7 +8,7 @@
 #include "renderer.h"
 #include "mapgen.h"
 #include "camera.h"
-#include "character.h"
+#include "gameobj.h"
 
 
 //=========================================================================== GAME VARIABLES =================================================================//
@@ -22,8 +22,6 @@ SDL_Renderer *renderer = NULL;
 camera mainCamera = {.speed = 2, .xoffset = 0, .yoffset = 0, .isMoveable=true};
 mouse mouse_;
 
-character character_ = {.move = false, .mapCX = 50, .mapCY = 50, .mapCZ = 20, .x = 50, .y = 50, .z = 20, .speed = .01f};
-
 const unsigned int timePerFrame = 1000 / 1000;
 const float deltaTimeRatio = 1000 / 500;
 
@@ -32,7 +30,7 @@ bool run = true;
 //========================================================================== INIT ============================================================================//
 
 
-void init() {
+static void init() {
     srand(time(NULL));
     SDL_Init( SDL_INIT_VIDEO );
     IMG_Init(IMG_INIT_PNG);
@@ -47,8 +45,12 @@ void init() {
 //========================================================================== CLOSE ===========================================================================//
 
 
-void Close_() { //TODO destor images created in renderer.c
+static void Close_() { //TODO destor images created in renderer.c
     SDL_DestroyWindow( window );
+
+    SDL_DestroyTexture(mapTexture);
+    SDL_DestroyTexture(selectedTileTexture);
+    SDL_DestroyTexture(characterTexture);
 
     SDL_DestroyRenderer( renderer);
 
@@ -60,7 +62,7 @@ void Close_() { //TODO destor images created in renderer.c
 //=========================================================================== EVENT HANDLER ==================================================================//
 
 
-void eventHandler(SDL_Event event) { //TODO add controller support
+static void eventHandler(SDL_Event event, dinamicGameobj* character) { //TODO add controller support
     while (SDL_PollEvent(&event)) {
         switch(event.type){
             case SDL_QUIT:
@@ -72,24 +74,24 @@ void eventHandler(SDL_Event event) { //TODO add controller support
                         run = false;
                         break;
                     case SDLK_w:
-                        character_.direction = forward;
-                        character_.move = true;
+                        character->dir = forward;
+                        character->move = true;
                         break;
                     case SDLK_s:
-                        character_.move = true;
-                        character_.direction = backwards;
+                        character->move = true;
+                        character->dir = backwards;
                         break;
                     case SDLK_a:
-                        character_.move = true;
-                        character_.direction = left;
+                        character->move = true;
+                        character->dir = left;
                         break;
                     case SDLK_d:
-                        character_.move = true;
-                        character_.direction = right;
+                        character->move = true;
+                        character->dir = right;
                         break;
                     case SDLK_SPACE:
-                        if (character_.collisioDir.down) {
-                            character_.isJump = true;
+                        if (character->hitbox.colDir.down) {
+                            character->isJump = true;
                         }
                         break;
                     
@@ -100,20 +102,20 @@ void eventHandler(SDL_Event event) { //TODO add controller support
                 case SDL_KEYUP:
                     switch(event.key.keysym.sym) {
                         case SDLK_w:
-                            character_.direction = forward;
-                            character_.move = false;
+                            character->dir = forward;
+                            character->move = false;
                             break;
                         case SDLK_s:
-                            character_.move = false;
-                            character_.direction = backwards;
+                            character->move = false;
+                            character->dir = backwards;
                             break;
                         case SDLK_a:
-                            character_.move = false;
-                            character_.direction = left;
+                            character->move = false;
+                            character->dir = left;
                             break;
                         case SDLK_d:
-                            character_.move = false;
-                            character_.direction = right;
+                            character->move = false;
+                            character->dir = right;
                             break;
                         
                         default:
@@ -147,17 +149,19 @@ void runGame() {
 
     float deltaTime;
 
+    dinamicGameobj character = createDinamicGameObj(16, 20, 16, 50, 50, 20, .01);
+
 
     while (run) {
         frameStart = SDL_GetTicks();
 
         // Game
 
-        gameRenderer(renderer, &mainCamera, win_width, win_height, character_);
-        eventHandler(event);
+        gameRenderer(renderer, &mainCamera, character);
+        eventHandler(event, &character);
         moveCam(&mainCamera, mouse_, win_width, win_height, deltaTime);
-        moveCharacter(&character_, deltaTime);
-        isCollide(&character_);
+        moveGameObj(&character, deltaTime);
+        isCollide(&character);
 
 
         // Game

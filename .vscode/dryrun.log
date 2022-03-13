@@ -1,6 +1,6 @@
-make all --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory '/media/adampapp/2TBHDD/C/sandbox'
-gcc engine.c main.c game.c camera.c mapgen.c renderer.c character.c -w -lSDL2 -lSDL2_image -o sandbox
+gcc src/engine.c src/main.c src/game.c src/camera.c src/mapgen.c src/renderer.c src/hitbox.c src/gameobj.c -w -lSDL2 -lSDL2_image -o sandbox
 ./sandbox
 make: Leaving directory '/media/adampapp/2TBHDD/C/sandbox'
  

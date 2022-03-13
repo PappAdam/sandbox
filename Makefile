@@ -1,4 +1,4 @@
-OBJS = engine.c main.c game.c camera.c mapgen.c renderer.c character.c
+OBJS = src/engine.c src/main.c src/game.c src/camera.c src/mapgen.c src/renderer.c src/hitbox.c src/gameobj.c
 
 CC = gcc
 
