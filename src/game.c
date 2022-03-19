@@ -62,7 +62,7 @@ static void Close_() { //TODO destor images created in renderer.c
 //=========================================================================== EVENT HANDLER ==================================================================//
 
 
-static void eventHandler(SDL_Event event, dinamicGameobj* character) { //TODO add controller support
+static void eventHandler(SDL_Event event, gameobj* character) { //TODO add controller support
     while (SDL_PollEvent(&event)) {
         switch(event.type){
             case SDL_QUIT:
@@ -74,24 +74,24 @@ static void eventHandler(SDL_Event event, dinamicGameobj* character) { //TODO ad
                         run = false;
                         break;
                     case SDLK_w:
-                        character->dir = forward;
-                        character->move = true;
+                        character->dinamic.dir = forward;
+                        character->dinamic.move = true;
                         break;
                     case SDLK_s:
-                        character->move = true;
-                        character->dir = backwards;
+                        character->dinamic.move = true;
+                        character->dinamic.dir = backwards;
                         break;
                     case SDLK_a:
-                        character->move = true;
-                        character->dir = left;
+                        character->dinamic.move = true;
+                        character->dinamic.dir = left;
                         break;
                     case SDLK_d:
-                        character->move = true;
-                        character->dir = right;
+                        character->dinamic.move = true;
+                        character->dinamic.dir = right;
                         break;
                     case SDLK_SPACE:
                         if (character->hitbox.colDir.down) {
-                            character->isJump = true;
+                            character->dinamic.isJump = true;
                         }
                         break;
                     
@@ -102,20 +102,20 @@ static void eventHandler(SDL_Event event, dinamicGameobj* character) { //TODO ad
                 case SDL_KEYUP:
                     switch(event.key.keysym.sym) {
                         case SDLK_w:
-                            character->dir = forward;
-                            character->move = false;
+                            character->dinamic.dir = forward;
+                            character->dinamic.move = false;
                             break;
                         case SDLK_s:
-                            character->move = false;
-                            character->dir = backwards;
+                            character->dinamic.move = false;
+                            character->dinamic.dir = backwards;
                             break;
                         case SDLK_a:
-                            character->move = false;
-                            character->dir = left;
+                            character->dinamic.move = false;
+                            character->dinamic.dir = left;
                             break;
                         case SDLK_d:
-                            character->move = false;
-                            character->dir = right;
+                            character->dinamic.move = false;
+                            character->dinamic.dir = right;
                             break;
                         
                         default:
@@ -149,7 +149,7 @@ void runGame() {
 
     float deltaTime;
 
-    dinamicGameobj character = createDinamicGameObj(16, 20, 16, 50, 50, 20, .01);
+    gameobj character = createDinamicGameObj(16, 48, 16, 50, 50, 20, .01);
 
 
     while (run) {
@@ -161,7 +161,7 @@ void runGame() {
         eventHandler(event, &character);
         moveCam(&mainCamera, mouse_, win_width, win_height, deltaTime);
         moveGameObj(&character, deltaTime);
-        isCollide(&character);
+        isCollide(&character, deltaTime);
 
 
         // Game

@@ -9,30 +9,33 @@ typedef enum dir {
     backwards
 } direction;
 
-typedef struct sttcGameobj
-{
-    hitbox hitbox;
-    float x, y, z;
-    int mapx, mapy, mapz;
-
-} staticGameobj;
+typedef enum gobjType {
+    dnmc = 1,
+    sttc
+} gobjType;
 
 typedef struct dnmcGameobj
 {
-    hitbox hitbox;
-    float x, y, z;
-    int mapx, mapy, mapz;
     float zSpeed;
     float speed;
     direction dir;
     bool isJump;
     bool move;
-
 } dinamicGameobj;
+
+typedef struct gameobj
+{
+    hitbox hitbox;
+    float x, y, z;
+    int mapx, mapy, mapz;
+    gobjType type;
+    dinamicGameobj dinamic;
+} gameobj;
 
 //functions
 
-staticGameobj createStaticGameObj(int width, int height, int lenght, int x, int y, int z);
-dinamicGameobj createDinamicGameObj(int width, int height, int lenght, int x, int y, int z, float speed);
+gameobj createDinamicGameObj(int width, int height, int lenght, int x, int y, int z, float speed);
+gameobj createStaticGameObj(int width, int height, int lenght, int x, int y, int z);
+gameobj createNoneTypeGameObj();
 
-void moveGameObj(dinamicGameobj* gObj, float deltaTime);
+void moveGameObj(gameobj* gObj, float deltaTime);

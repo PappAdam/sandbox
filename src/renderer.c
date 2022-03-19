@@ -20,22 +20,22 @@ void setRenderer(SDL_Renderer* renderer) {
     selectedTileTexture = loadTexture("imgs/selectedTile.png", renderer);
 } 
 
-void gameRenderer(SDL_Renderer *renderer, camera* cam, dinamicGameobj gObj) {
+void gameRenderer(SDL_Renderer *renderer, camera* cam, gameobj gObj) {
     SDL_RenderClear(renderer);
     isRenderable = true;
-    for (int z = 0; z < 64; z++) {
-        for (int y = 1; y < mapSize-1; y++) {
-            for (int x = 1; x < mapSize-1; x++) {
-                if (map[y][x][z] == 1) {
+    for (int y = 1; y < mapSize-1; y++) {
+        for (int x = 1; x < mapSize-1; x++) {
+            for (int z = 0; z < 64; z++) {  
+                if (map[y][x][z].type == sttc) {
                     dstR.x = x*dstR.w/2 - y*dstR.h/2 + cam->xoffset;
                     dstR.y = y*dstR.h/4 + x*dstR.w/4 - z*dstR.h/2 + cam->yoffset;
-                    if (map[y][x][z+1] == 2) {
+                    if (map[y][x][z+1].type == dnmc) {
                         SDL_RenderCopy(renderer, selectedTileTexture, NULL, &dstR);
                     }
                     else {
-                        if (map[y][x-1][z] == 0 && map[y+1][x-1][z] == 2) {
+                        if (map[y][x-1][z].type == NULL && map[y+1][x-1][z].type == dnmc) {
                             cDstR.x = gObj.x*cDstR.w/2 - gObj.y*cDstR.h/2 + cam->xoffset;
-                            cDstR.y = gObj.y*cDstR.h/4 + gObj.x*cDstR.w/4 - gObj.z*cDstR.w/2 + cam->yoffset - cDstR.h/2;
+                            cDstR.y = gObj.y*cDstR.h/4 + gObj.x*cDstR.w/4 - gObj.z*cDstR.w/2 + cam->yoffset - cDstR.h/2 + 16;
                             SDL_RenderCopy(renderer, characterTexture, NULL, &cDstR);
                             isRenderable = false;
                         }
@@ -45,9 +45,9 @@ void gameRenderer(SDL_Renderer *renderer, camera* cam, dinamicGameobj gObj) {
                     }
                 }
 
-                if (isRenderable && map[y][x][z] == 2) {
+                if (isRenderable && map[y][x][z].type == dnmc) {
                     cDstR.x = gObj.x*cDstR.w/2 - gObj.y*cDstR.h/2 + cam->xoffset;
-                    cDstR.y = gObj.y*cDstR.h/4 + gObj.x*cDstR.w/4 - gObj.z*cDstR.w/2 + cam->yoffset - cDstR.h/2;
+                    cDstR.y = gObj.y*cDstR.h/4 + gObj.x*cDstR.w/4 - gObj.z*cDstR.w/2 + cam->yoffset - cDstR.h/2 + 16;
                     SDL_RenderCopy(renderer, characterTexture, NULL, &cDstR);
                     isRenderable = false;
                 }

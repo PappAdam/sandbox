@@ -78,16 +78,16 @@ void generateMap() { //FIXME make it generate more than 4 layers procedually
         for (int x = 0; x < mapSize; x++) {
             double z = perlin2d(x, y, .1, 2) / (abs(mapSize/2 - x) + abs(mapSize/2 - y)) * (mapSize+mapSize)/40;
             if (z > .3) {
-                map[y][x][3] = 1;
+                map[y][x][3] = createStaticGameObj(32, 32, 32, x, y, 3);
             }
             else if (z > .18) {
-                map[y][x][2] = 1;
+                map[y][x][2] = createStaticGameObj(32, 32, 32, x, y, 2);
             }
             else if (z > .12) {
-                map[y][x][1] = 1;
+                map[y][x][1] = createStaticGameObj(32, 32, 32, x, y, 1);
             }
             else if (z > .08) {
-                map[y][x][0] = 1;
+                map[y][x][0] = createStaticGameObj(32, 32, 32, x, y, 0);
             }
         }
     }

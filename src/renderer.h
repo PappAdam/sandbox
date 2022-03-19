@@ -10,4 +10,4 @@ SDL_Rect dstR;
 SDL_Rect cDstR;
 
 void setRenderer(SDL_Renderer* renderer);
-void gameRenderer(SDL_Renderer *renderer, camera* cam, dinamicGameobj gObj);
+void gameRenderer(SDL_Renderer *renderer, camera* cam, gameobj gObj);

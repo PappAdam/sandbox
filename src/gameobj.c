@@ -2,24 +2,11 @@
 #include "hitbox.h"
 #include "mapgen.h"
 
-staticGameobj createStaticGameObj(int width, int height, int lenght, int x, int y, int z) {
-    staticGameobj newSttcGObj;
-    hitbox newSttcGObj_hitbox;
 
-    newSttcGObj_hitbox.w = width;
-    newSttcGObj_hitbox.l = lenght;
-    newSttcGObj_hitbox.h = height;
-    newSttcGObj.hitbox = newSttcGObj_hitbox;
-    newSttcGObj.x = x; newSttcGObj.mapx = x;
-    newSttcGObj.y = y; newSttcGObj.mapy = y;
-    newSttcGObj.z = z; newSttcGObj.mapz = z;
-    
-    
-    return newSttcGObj;
-}
+static const gameobj noneObj;
 
-dinamicGameobj createDinamicGameObj(int width, int height, int lenght, int x, int y, int z, float speed) {
-    dinamicGameobj newDnmcGObj;
+gameobj createDinamicGameObj(int width, int height, int lenght, int x, int y, int z, float speed) {
+    gameobj newDnmcGObj;
     hitbox newDnmcGObj_hitbox;
 
     newDnmcGObj_hitbox.w = width;
@@ -29,39 +16,63 @@ dinamicGameobj createDinamicGameObj(int width, int height, int lenght, int x, in
     newDnmcGObj.x = x; newDnmcGObj.mapx = x;
     newDnmcGObj.y = y; newDnmcGObj.mapy = y;
     newDnmcGObj.z = z; newDnmcGObj.mapz = z;
-    newDnmcGObj.speed = speed;
-    newDnmcGObj.isJump = false;
-    newDnmcGObj.move = false;
-
+    newDnmcGObj.type = dnmc;
+    newDnmcGObj.dinamic.speed = speed;
+    newDnmcGObj.dinamic.isJump = false;
+    newDnmcGObj.dinamic.move = false;
+    newDnmcGObj.dinamic.zSpeed = 0;
 
     return newDnmcGObj;
 }
 
-static void clearDnmcGobjPrevPos(dinamicGameobj* gObj) {
-    map[(int)gObj->y][(int)gObj->x][(int)gObj->z] = 0;
+gameobj createStaticGameObj(int width, int height, int lenght, int x, int y, int z) {
+    gameobj newDnmcGObj;
+    hitbox newDnmcGObj_hitbox;
+
+    newDnmcGObj_hitbox.w = width;
+    newDnmcGObj_hitbox.l = lenght;
+    newDnmcGObj_hitbox.h = height;
+    newDnmcGObj.hitbox = newDnmcGObj_hitbox;
+    newDnmcGObj.x = x; newDnmcGObj.mapx = x;
+    newDnmcGObj.y = y; newDnmcGObj.mapy = y;
+    newDnmcGObj.z = z; newDnmcGObj.mapz = z;
+    newDnmcGObj.type = sttc;
+
+    return newDnmcGObj;
+
 }
 
-static void setDmncGobjPos(dinamicGameobj* gObj) {
-    map[(int)gObj->y][(int)gObj->x][(int)gObj->z] = 2;
-    map[(int)gObj->y-1][(int)gObj->x-1][(int)gObj->z] = 1;
+gameobj createNoneTypeGameObj() {
+    return noneObj;
+
 }
 
-void moveGameObj(dinamicGameobj* gObj, float deltaTime) {
+static void clearDnmcGobjPrevPos(gameobj* gObj) {
+    map[(int)gObj->y][(int)gObj->x][(int)gObj->z] = noneObj;
+
+}
+
+static void setDmncGobjPos(gameobj* gObj) {
+    map[(int)gObj->y][(int)gObj->x][(int)gObj->z] = *gObj;
+
+}
+
+void moveGameObj(gameobj* gObj, float deltaTime) {
     clearDnmcGobjPrevPos(gObj);
-    if (gObj->move) {
-        switch (gObj->dir)
+    if (gObj->dinamic.move) {
+        switch (gObj->dinamic.dir)
         {
             case left:
-                if (!gObj->hitbox.colDir.left) gObj->x -= gObj->speed*deltaTime;
+                if (!gObj->hitbox.colDir.left) gObj->x -= gObj->dinamic.speed*deltaTime;
                 break;
             case right:
-                if (!gObj->hitbox.colDir.right) gObj->x += gObj->speed*deltaTime;
+                if (!gObj->hitbox.colDir.right) gObj->x += gObj->dinamic.speed*deltaTime;
                 break;
             case forward:
-                if (!gObj->hitbox.colDir.forward) gObj->y -= gObj->speed*deltaTime;
+                if (!gObj->hitbox.colDir.forward) gObj->y -= gObj->dinamic.speed*deltaTime;
                 break;
             case backwards:
-                if (!gObj->hitbox.colDir.backwards) gObj->y += gObj->speed*deltaTime;
+                if (!gObj->hitbox.colDir.backwards) gObj->y += gObj->dinamic.speed*deltaTime;
                 break;
             
             default:
@@ -69,16 +80,16 @@ void moveGameObj(dinamicGameobj* gObj, float deltaTime) {
         }
     }
     
-    if (gObj->isJump) {
-        gObj->zSpeed = -0.03f;
+    if (gObj->dinamic.isJump) {
+        gObj->dinamic.zSpeed = -0.03f;
     }
     if (!gObj->hitbox.colDir.down) {
-        gObj->zSpeed += 0.0003;
-        gObj->isJump = false;
+        gObj->dinamic.zSpeed += 0.0003f*deltaTime;
+        gObj->dinamic.isJump = false;
     }
-    else if (gObj->hitbox.colDir.down && !gObj->isJump) {gObj->zSpeed = 0;}
+    else if (gObj->hitbox.colDir.down && !gObj->dinamic.isJump) {gObj->dinamic.zSpeed = 0;}
     
-    gObj->z -= gObj->zSpeed*deltaTime;
+    gObj->z -= gObj->dinamic.zSpeed*deltaTime;
 
     setDmncGobjPos(gObj);
 }
