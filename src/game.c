@@ -22,7 +22,7 @@ SDL_Renderer *renderer = NULL;
 camera mainCamera = {.speed = 2, .xoffset = 0, .yoffset = 0, .isMoveable=true};
 mouse mouse_;
 
-const unsigned int timePerFrame = 1000 / 1000;
+const unsigned int timePerFrame = 1000 / 2000;
 const float deltaTimeRatio = 1000 / 500;
 
 bool run = true;
@@ -36,7 +36,7 @@ static void init() {
     IMG_Init(IMG_INIT_PNG);
 
     window = SDL_CreateWindow( "Try", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, win_width, win_height, SDL_WINDOW_FULLSCREEN_DESKTOP );
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 }
@@ -173,6 +173,8 @@ void runGame() {
             SDL_Delay(timePerFrame - frameTime);
             frameTime = timePerFrame;
         }
+
+        printf("%lf", frameTime);
 
         deltaTime = (float)(frameTime / deltaTimeRatio);
     }

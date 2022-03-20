@@ -23,25 +23,26 @@ void setRenderer(SDL_Renderer* renderer) {
 void gameRenderer(SDL_Renderer *renderer, camera* cam, gameobj gObj) {
     SDL_RenderClear(renderer);
     isRenderable = true;
-    for (int y = 1; y < mapSize-1; y++) {
-        for (int x = 1; x < mapSize-1; x++) {
-            for (int z = 0; z < 64; z++) {  
+    for (int z = 0; z < 64; z++) {  //FIXME z compatible dinamic game object render
+        for (int y = 1; y < mapSize-1; y++) {
+            for (int x = 1; x < mapSize-1; x++) {
                 if (map[y][x][z].type == sttc) {
                     dstR.x = x*dstR.w/2 - y*dstR.h/2 + cam->xoffset;
                     dstR.y = y*dstR.h/4 + x*dstR.w/4 - z*dstR.h/2 + cam->yoffset;
-                    if (map[y][x][z+1].type == dnmc) {
-                        SDL_RenderCopy(renderer, selectedTileTexture, NULL, &dstR);
-                    }
-                    else {
-                        if (map[y][x-1][z].type == NULL && map[y+1][x-1][z].type == dnmc) {
-                            cDstR.x = gObj.x*cDstR.w/2 - gObj.y*cDstR.h/2 + cam->xoffset;
-                            cDstR.y = gObj.y*cDstR.h/4 + gObj.x*cDstR.w/4 - gObj.z*cDstR.w/2 + cam->yoffset - cDstR.h/2 + 16;
-                            SDL_RenderCopy(renderer, characterTexture, NULL, &cDstR);
-                            isRenderable = false;
+                    if (dstR.x > -64 && dstR.x < 1920 && dstR.y > -64 && dstR.y < 1080) {
+                        if (map[y][x][z+1].type == dnmc) {
+                            SDL_RenderCopy(renderer, selectedTileTexture, NULL, &dstR);
                         }
+                        else {
+                            if (map[y][x-1][z].type == NULL && map[y+1][x-1][z].type == dnmc) {
+                                cDstR.x = gObj.x*cDstR.w/2 - gObj.y*cDstR.h/2 + cam->xoffset;
+                                cDstR.y = gObj.y*cDstR.h/4 + gObj.x*cDstR.w/4 - gObj.z*cDstR.w/2 + cam->yoffset - cDstR.h/2 + 16;
+                                SDL_RenderCopy(renderer, characterTexture, NULL, &cDstR);
+                                isRenderable = false;
+                            }
 
-                        SDL_RenderCopy(renderer, mapTexture, NULL, &dstR);
-
+                            SDL_RenderCopy(renderer, mapTexture, NULL, &dstR);
+                        }
                     }
                 }
 

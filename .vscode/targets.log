@@ -5,8 +5,9 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Sat Mar 19 17:50:22 2022
+# Make data base, printed on Sun Mar 20 11:09:52 2022
 
 # Variables
 
@@ -26,8 +27,6 @@ SNAP_COMMON = /var/snap/code/common
 XDG_SESSION_TYPE = x11
 # environment
 VSCODE_LOG_NATIVE = false
-# environment
-KCRASH_AUTO_RESTARTED = 1
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
@@ -49,7 +48,7 @@ VTE_VERSION = 6003
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-gb","availableLanguages":{},"_languagePackSupport":true}
 # environment
-JOURNAL_STREAM = 8:44615
+JOURNAL_STREAM = 8:39488
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-pop:/etc/xdg
 # environment
@@ -73,7 +72,7 @@ VSCODE_VERBOSE_LOGGING = true
 # makefile (from 'Makefile', line 1)
 OBJS = src/engine.c src/main.c src/game.c src/camera.c src/mapgen.c src/renderer.c src/hitbox.c src/gameobj.c
 # environment
-MANAGERPID = 1389
+MANAGERPID = 1401
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
@@ -89,7 +88,7 @@ PATH = /home/adampapp/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/b
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/pop-os:@/tmp/.ICE-unix/1654,unix/pop-os:/tmp/.ICE-unix/1654
+SESSION_MANAGER = local/pop-os:@/tmp/.ICE-unix/1650,unix/pop-os:/tmp/.ICE-unix/1650
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -107,7 +106,7 @@ DISABLE_WAYLAND = 1
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = c9263f18d69547fd8b23470c8e4044e3
+INVOCATION_ID = fcaeb133cba743889a5c4dd37a98c9d4
 # environment
 GDK_PIXBUF_MODULEDIR = /snap/code/91/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
 # default
@@ -131,11 +130,11 @@ PWD = /media/adampapp/2TBHDD/C/sandbox
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 1584
+SSH_AGENT_PID = 1591
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = pop:GNOME
 # makefile (from 'Makefile', line 7)
-LINKER_FLAGS = -lSDL2 -lSDL2_image
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lm
 # environment
 GTK_MODULES = gail:atk-bridge:appmenu-gtk-module
 # environment
@@ -166,6 +165,7 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 GNOME_DESKTOP_SESSION_ID = this-is-deprecated
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
+ 
 # environment
 MAKELEVEL := 0
 # environment
@@ -189,7 +189,7 @@ CC = gcc
 # environment
 GNOME_SHELL_SESSION_MODE = pop
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-09b4e2c6-ee82-4092-91c6-412d64ee7dca.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-0af6aa5e-8e67-4022-bfea-e07f0378df5a.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -241,11 +241,11 @@ SNAP_NAME = code
 # environment
 LC_ALL = C
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/69bdc012_1300_4e48_9833_265f00c49efd
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/e502a827_c523_4ddc_ba07_7adae7ca7507
 # automatic
 ^F = $(notdir $^)
 # environment
-GNOME_TERMINAL_SERVICE = :1.2690
+GNOME_TERMINAL_SERVICE = :1.150
 # default
 SUFFIXES := 
 # environment
@@ -263,9 +263,9 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 31017
+VSCODE_PID = 4593
 # variable set hash-table stats:
-# Load=127/1024=12%, Rehash=0, Collisions=13/162=8%
+# Load=126/1024=12%, Rehash=0, Collisions=13/161=8%
 
 # Pattern-specific Variable Values
 
@@ -273,7 +273,7 @@ VSCODE_PID = 31017
 
 # Directories
 
-# . (device 2049, inode 121111346): 10 files, no impossibilities.
+# . (device 2049, inode 121111593): 10 files, no impossibilities.
 
 # 10 files, no impossibilities in 1 directories.
 
@@ -307,9 +307,9 @@ all: src/engine.c src/main.c src/game.c src/camera.c src/mapgen.c src/renderer.c
 # automatic
 # ? := src/engine.c src/main.c src/game.c src/camera.c src/mapgen.c src/renderer.c src/hitbox.c src/gameobj.c
 # variable set hash-table stats:
+ 
 # Load=8/32=25%, Rehash=0, Collisions=2/17=12%
 #  recipe to execute (from 'Makefile', line 12):
- 
 	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
 	./$(OBJ_NAME)
 
@@ -322,42 +322,42 @@ all: src/engine.c src/main.c src/game.c src/camera.c src/mapgen.c src/renderer.c
 # Not a target:
 src/game.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-19 16:13:04.363863474
+#  Last modified 2022-03-19 20:50:40.812233573
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-18 17:53:25.47756865
+#  Last modified 2022-03-20 11:09:46.418699807
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/mapgen.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-18 17:53:25.47756865
+#  Last modified 2022-03-20 11:08:22.286118842
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/camera.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-18 17:53:25.47756865
+#  Last modified 2022-03-19 20:50:40.812233573
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/hitbox.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-19 16:12:19.111790106
+#  Last modified 2022-03-19 20:50:40.812233573
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/main.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-18 17:53:25.47756865
+#  Last modified 2022-03-19 20:50:40.812233573
 #  File has been updated.
 #  Successfully updated.
 
@@ -369,22 +369,23 @@ src/main.c:
 
 # Not a target:
 src/gameobj.c:
+ 
 #  Implicit rule search has been done.
-#  Last modified 2022-03-19 16:29:11.023002515
+#  Last modified 2022-03-20 10:18:04.906546832
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/renderer.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-19 16:03:11.533552089
+#  Last modified 2022-03-20 10:20:11.299217496
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 src/engine.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-18 17:53:25.47756865
+#  Last modified 2022-03-19 20:50:40.812233573
 #  File has been updated.
 #  Successfully updated.
 
@@ -402,6 +403,6 @@ src/engine.c:
 # strcache performance: lookups = 30 / hit rate = 23%
 # hash-table stats:
 # Load=23/8192=0%, Rehash=0, Collisions=1/30=3%
-# Finished Make data base on Sat Mar 19 17:50:22 2022
+# Finished Make data base on Sun Mar 20 11:09:52 2022
 
  

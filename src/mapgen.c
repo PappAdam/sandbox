@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <math.h>
 #include "mapgen.h"
 #include "camera.h"
 
@@ -74,21 +75,31 @@ float perlin2d(float x, float y, float freq, int depth)
 
 void generateMap() { //FIXME make it generate more than 4 layers procedually
     SEED = rand();
+    double z;
+    int r = 50;
+    double dstFromMapCenter;
+    bool neededBelow;
     for (int y = 0; y < mapSize; y++) {
         for (int x = 0; x < mapSize; x++) {
-            double z = perlin2d(x, y, .1, 2) / (abs(mapSize/2 - x) + abs(mapSize/2 - y)) * (mapSize+mapSize)/40;
-            if (z > .3) {
-                map[y][x][3] = createStaticGameObj(32, 32, 32, x, y, 3);
+            neededBelow = true;
+            z = perlin2d(x, y, .1, 2);
+            dstFromMapCenter = 1 - (sqrt((mapSize/2-x)*(mapSize/2-x) + (mapSize/2-y)*(mapSize/2-y)) / r);
+            dstFromMapCenter = (dstFromMapCenter < 0)? 0 : dstFromMapCenter*12;
+
+            z = z*dstFromMapCenter;
+
+            if ((int)z > 0) {
+                map[y][x][(int)z] = createStaticGameObj(32, 32, 32, x, y, (int)z);
             }
-            else if (z > .18) {
-                map[y][x][2] = createStaticGameObj(32, 32, 32, x, y, 2);
-            }
-            else if (z > .12) {
-                map[y][x][1] = createStaticGameObj(32, 32, 32, x, y, 1);
-            }
-            else if (z > .08) {
-                map[y][x][0] = createStaticGameObj(32, 32, 32, x, y, 0);
+            if ((int)z > 1) {
+                for (int i = 0; i<2 && neededBelow; i++) {
+                    int a = i*2-1;
+                    if (map[y+a][x][(int)z-1].type == NULL || map[y][x+a][(int)z-1].type == NULL) {
+                        map[y][x][(int)z-1] = createStaticGameObj(32, 32, 32, x, y, (int)z-1);
+                        neededBelow = false;
+                    }
+                }
             }
         }
     }
-} 
+}

@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "sdl.h": "c"
+        "sdl.h": "c",
+        "cmath": "c"
     },
     "makefile.launchConfigurations": [
         {

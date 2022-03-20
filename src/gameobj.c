@@ -89,7 +89,7 @@ void moveGameObj(gameobj* gObj, float deltaTime) {
     }
     else if (gObj->hitbox.colDir.down && !gObj->dinamic.isJump) {gObj->dinamic.zSpeed = 0;}
     
-    gObj->z -= gObj->dinamic.zSpeed*deltaTime;
+    gObj->z -= gObj->dinamic.zSpeed*deltaTime; //FIXME Jump backwards and right
 
     setDmncGobjPos(gObj);
 }
